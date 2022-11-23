@@ -1,35 +1,35 @@
-require 'rake/testtask'
+require "rake/testtask"
 require "standard/rake"
 
 task default: %w[test]
 
 Rake::TestTask.new do |t|
   t.libs = []
-  t.test_files = FileList['test/**/test*.rb']
+  t.test_files = FileList["test/**/test*.rb"]
 end
 
 Rake::TestTask.new do |t|
   t.libs = []
   t.name = "test:controllers"
-  t.test_files = FileList['test/controllers/test*.rb']
+  t.test_files = FileList["test/controllers/test*.rb"]
 end
 
 Rake::TestTask.new do |t|
   t.libs = []
   t.name = "test:models"
-  t.test_files = FileList['test/models/test*.rb']
+  t.test_files = FileList["test/models/test*.rb"]
 end
 
 Rake::TestTask.new do |t|
   t.libs = []
   t.name = "test:helpers"
-  t.test_files = FileList['test/helpers/test*.rb']
+  t.test_files = FileList["test/helpers/test*.rb"]
 end
 
 Rake::TestTask.new do |t|
   t.libs = []
   t.name = "test:lib"
-  t.test_files = FileList['test/lib/test*.rb']
+  t.test_files = FileList["test/lib/test*.rb"]
 end
 
 desc "Run test coverage analysis"
@@ -62,7 +62,7 @@ namespace :unicorn do
     elsif $?.exitstatus == 0
       print "Killing unicorn..."
       pids = `pgrep -f 'unicorn master'`
-      while !pids.empty?
+      until pids.empty?
         print "."
         pids = `pgrep -f 'unicorn master'`
       end
@@ -72,11 +72,11 @@ namespace :unicorn do
 end
 
 def clear_cache(env)
-  require 'ontologies_linked_data'
-  require 'ncbo_annotator'
-  require 'ncbo_cron'
-  require 'redis'
-  require_relative 'config/config'
+  require "ontologies_linked_data"
+  require "ncbo_annotator"
+  require "ncbo_cron"
+  require "redis"
+  require_relative "config/config"
   require_relative "config/environments/#{env}.rb"
   LinkedData::HTTPCache.invalidate_all
   redis = Redis.new(host: LinkedData.settings.goo_redis_host, port: LinkedData.settings.goo_redis_port, timeout: 30)
@@ -106,12 +106,12 @@ end
 namespace :deploy do
   desc "Deploy production"
   task :production do
-    puts 'Deploying ontologies_api'
-    puts 'Doing pull'
+    puts "Deploying ontologies_api"
+    puts "Doing pull"
     `git pull`
     puts "Installing bundle"
     `bundle install`
-    puts 'Restarting unicorn'
+    puts "Restarting unicorn"
     `sudo env PATH=$PATH rake unicorn:stop`
     `sudo env PATH=$PATH rake unicorn:start:production`
   end
