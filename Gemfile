@@ -39,7 +39,7 @@ gem "unicorn"
 gem "unicorn-worker-killer"
 
 # Templating
-gem "haml"
+gem "haml", "~> 5.2.2" # pin see https://github.com/ncbo/ontologies_api/pull/107
 gem "redcarpet"
 
 # NCBO
