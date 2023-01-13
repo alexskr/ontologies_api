@@ -9,6 +9,9 @@ set :deploy_via, :remote_cache
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+#
+BRANCH = ENV.include?('BRANCH') ? ENV['BRANCH'] : 'master'
+set :branch, "#{BRANCH}"
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, "#{APP_PATH}/#{fetch(:application)}"
