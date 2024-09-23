@@ -1,11 +1,9 @@
 ARG RUBY_VERSION=3.0
-ARG DISTRO_NAME=slim-bullseye
+ARG DISTRO_NAME=bullseye
 
 FROM ruby:$RUBY_VERSION-$DISTRO_NAME
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
-  build-essential curl git \
-  zlib1g-dev \
   libxml2-dev  \
   openjdk-11-jre-headless \
   raptor2-utils \
@@ -17,7 +15,7 @@ COPY Gemfile* /srv/ontoportal/ontologies_api/
 
 WORKDIR /srv/ontoportal/ontologies_api
 
-RUN gem update --system
+# RUN gem update --system
 RUN gem install bundler
 ENV BUNDLE_PATH=/srv/ontoportal/bundle
 RUN bundle install
